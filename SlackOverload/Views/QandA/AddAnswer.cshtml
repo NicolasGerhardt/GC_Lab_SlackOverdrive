@@ -1,0 +1,27 @@
+﻿@model Answer
+@{
+    ViewData["Title"] = "Add Answer";
+                Question q = (Question) ViewData["Question"];
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>@q.Title</h2>
+<p>@q.Detail</p>
+
+
+<h3>Please add your Answer:</h3>
+<form asp-controller="QandA" asp-action="AddAnswer" method="post">
+    <p>
+        @Html.LabelFor(m => m.Username)
+        @Html.EditorFor(m => m.Username)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.Detail)
+        @Html.TextAreaFor(m => m.Detail, new { rows = 5, cols = 33 })
+    </p>
+    <p>
+        <input type="submit" />
+    </p>
+
+</form>

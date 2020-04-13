@@ -5,6 +5,18 @@
 }
 
 <h1>Recent Questions</h1>
+@{
+    if (TempData["Thing Deleted"] != null)
+    {
+        <div class="text-danger">@TempData["Thing Deleted"]</div>
+    }
+
+    if (Questions.Count == 0)
+    {
+        <div class="text-danger">There are no questions here.</div>
+        <img src="https://media.giphy.com/media/10PcMWwtZSYk2k/200w_d.gif" alt=" Ain't nobody got time for that!" />
+    }
+}
 @foreach (Question q in Questions)
 {
     <h3><a href="/QandA/Detail/@q.Id">@q.Title</a></h3>

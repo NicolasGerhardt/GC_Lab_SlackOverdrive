@@ -1,14 +1,15 @@
 ﻿@model Question
 @{
-    ViewData["Title"] = "Create a New Question";
+    ViewData["Title"] = "Edit";
 }
 
 <h1>@ViewData["Title"]</h1>
-Please add your question:
-<form asp-controller="QandA" asp-action="Add" method="post">
+
+Please Edit your question:
+<form asp-controller="QandA" asp-action="Edit" method="post">
     <p>
-        @Html.LabelFor(m => m.Username)
-        @Html.EditorFor(m => m.Username)
+        @Html.LabelFor(m => m.Username):
+        <strong>@Html.DisplayFor(m => m.Username)</strong>
     </p>
     <p>
         @Html.LabelFor(m => m.Title)
@@ -35,16 +36,16 @@ Please add your question:
         </select>
     </p>
 
-    @*<p>
-            @Html.LabelFor(m => m.Posted)
-            @{
-                //format the date right to fill in the input field
-                string datetime = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
-            }
-            <input type="datetime" value="@datetime" />
-        </p>*@
+    @Html.LabelFor(m => m.Status)
+    <select asp-for="Status">
+        <option value="1">Unanswered</option>
+        <option value="2">Answered</option>
+    </select>
+
     <!-- add the status field for edit -->
     <p>
         <input type="submit" />
     </p>
 </form>
+
+

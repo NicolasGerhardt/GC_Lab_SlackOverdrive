@@ -3,11 +3,24 @@
 @{
     ViewData["Title"] = Model.Title;
     List<Answer> Answers = (List<Answer>)ViewData["Answers"];
+
+    string HumanReadableStatus = "Undefined";
+    if (Model.Status == 1)
+    {
+        HumanReadableStatus = "Unanswered";
+    } else if (Model.Status == 2)
+    {
+        HumanReadableStatus = "Answered";
+    }
 }
 
 <h1>@Model.Title</h1>
 <div>@Model.Detail</div>
 <div>Asked on @Model.Posted by @Model.Username</div>
+@Html.ActionLink("Ed-it", "Edit", new { id = Model.Id }) |
+@Html.ActionLink("Della-ette", "Delete", new { id = Model.Id})
+
+<div>Current Status: @HumanReadableStatus</div>
 
 <h2>Answers</h2>
 @if (Answers.Count == 0)
@@ -17,11 +30,14 @@
 
 @foreach (Answer a in Answers)
 {
-    <p>
-        <strong>@a.Username</strong>:
-        @a.Detail<br />
-        <em>@a.Posted</em> Votes: @a.Upvotes
-    </p>
+<p>
+    <strong>@a.Username</strong>:
+    @a.Detail<br />
+    <em>@a.Posted</em> Votes: @a.Upvotes
+    <br />
+    <a href="~/QandA/EditAnswer/@a.Id">Edit</a> |
+    <a href="~/QandA/DeleteAnswer/@a.Id">Delete</a>
+</p>
 }
 
-<p>Post your answer!</p>
+<p><a href="~/QandA/AddAnswer/@Model.Id">Post your answer!</a></p>
