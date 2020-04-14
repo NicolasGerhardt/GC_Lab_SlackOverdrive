@@ -23,6 +23,16 @@ namespace SlackOverload
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            //this is added to enable sessions
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -45,6 +55,9 @@ namespace SlackOverload
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //this turns sessions on, with the above code
+            app.UseSession(); //this must be between routing and endpoints in this method!!
 
             app.UseEndpoints(endpoints =>
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SlackOverload.Models;
@@ -30,12 +31,21 @@ namespace SlackOverload.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            ViewData["username"] = HttpContext.Session.GetString("username");
+
+            if (ViewData["username"] == null)
+            {
+                return RedirectToAction("LogIn", "Home");
+            }
+
             return View(new Question());
         }
 
         [HttpPost]
         public IActionResult Add(Question q)
         {
+            q.Username = HttpContext.Session.GetString("username");
+
             int result = dal.CreateQuestion(q);
             
 
@@ -45,6 +55,13 @@ namespace SlackOverload.Controllers
         [HttpGet]
         public IActionResult AddAnswer(int id)
         {
+            ViewData["username"] = HttpContext.Session.GetString("username");
+
+            if (ViewData["username"] == null)
+            {
+                return RedirectToAction("LogIn", "Home");
+            }
+
             ViewData["Question"] = dal.GetQuestionById(id);
             var ans = new Answer() { QuestionId = id };
 
@@ -54,6 +71,8 @@ namespace SlackOverload.Controllers
         [HttpPost]
         public IActionResult AddAnswer(Answer ans, int id)
         {
+            ans.Username = HttpContext.Session.GetString("username");
+
             ans.QuestionId = id;
 
             int rows = dal.CreateAnswer(ans);
@@ -84,6 +103,8 @@ namespace SlackOverload.Controllers
 
             ViewData["Answers"] = answers;
 
+            ViewData["username"] = HttpContext.Session.GetString("username");
+    
             return View(question);
         }
 

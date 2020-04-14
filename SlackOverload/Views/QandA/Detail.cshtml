@@ -8,17 +8,25 @@
     if (Model.Status == 1)
     {
         HumanReadableStatus = "Unanswered";
-    } else if (Model.Status == 2)
+    }
+    else if (Model.Status == 2)
     {
         HumanReadableStatus = "Answered";
     }
+
+    string lowerUsername = string.Empty;
+    lowerUsername += (string)ViewData["username"];
 }
 
 <h1>@Model.Title</h1>
 <div>@Model.Detail</div>
 <div>Asked on @Model.Posted by @Model.Username</div>
-@Html.ActionLink("Ed-it", "Edit", new { id = Model.Id }) |
-@Html.ActionLink("Della-ette", "Delete", new { id = Model.Id})
+@if (Model.Username.ToLower() == lowerUsername.ToLower())
+{
+    <a href="~/QandA/Edit/@Model.Id">Edit</a>
+    <span> | </span>
+    <a href="~/QandA/Delete/@Model.Id">Delete</a>
+}
 
 <div>Current Status: @HumanReadableStatus</div>
 
@@ -30,14 +38,18 @@
 
 @foreach (Answer a in Answers)
 {
-<p>
-    <strong>@a.Username</strong>:
-    @a.Detail<br />
-    <em>@a.Posted</em> Votes: @a.Upvotes
-    <br />
-    <a href="~/QandA/EditAnswer/@a.Id">Edit</a> |
-    <a href="~/QandA/DeleteAnswer/@a.Id">Delete</a>
-</p>
+    <p>
+        <strong>@a.Username</strong>:
+        @a.Detail<br />
+        <em>@a.Posted</em> Votes: @a.Upvotes
+        <br />
+        @if (a.Username.ToLower() == lowerUsername.ToLower())
+        {
+            <a href="~/QandA/EditAnswer/@a.Id">Edit</a>
+            <span> | </span>
+            <a href="~/QandA/DeleteAnswer/@a.Id"> Delete </a>
+        }
+    </p>
 }
 
 <p><a href="~/QandA/AddAnswer/@Model.Id">Post your answer!</a></p>

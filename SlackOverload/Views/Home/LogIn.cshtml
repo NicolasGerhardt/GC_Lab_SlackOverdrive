@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Log In";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="Home" asp-action="LogIn" method="post">
+    <div>
+        Username: <br />
+        <input name="username" type="text" /> <br />
+        @if (TempData["ErrorMsg"] != null)
+        {
+            <span class="text-danger">@TempData["ErrorMsg"]</span> <br />
+        }
+        <input type="submit" value="Log in brah" />
+    </div>
+
+</form>
